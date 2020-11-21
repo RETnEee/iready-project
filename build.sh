@@ -3,7 +3,6 @@ image_version=`date +%Y%m%d%H%M`;
 echo $image_version;
 cd ~/mypro/project/iready-project;
 git pull origin master;
-cd publish
 docker stop iready-project;
 docker rm iready-project;
 docker build -t iready-project:$image_version .;
