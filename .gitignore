@@ -1,4 +1,5 @@
 /src/iready/.vs
+/src/iready/obj
 /src/iready/iready.api/bin
 /src/iready/iready.api/obj
 /.vscode
