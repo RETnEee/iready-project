@@ -1,6 +1,6 @@
 namespace iready.lib.Model
 {
-  public class ConnectionModel
+    public class ConnectionModel
     {
         public string Database { get; set; }
         public string User { get; set; }

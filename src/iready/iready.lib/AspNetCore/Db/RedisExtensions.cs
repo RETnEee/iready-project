@@ -1,3 +1,7 @@
+using System.Linq;
+using iready.lib.Data.Redis;
+using iready.lib.Utilities;
+
 namespace iready.lib.AspNetCore.Db
 {
     public static class RedisExtensions
@@ -6,8 +10,8 @@ namespace iready.lib.AspNetCore.Db
         {
             if (!ConnectionHelper.Redis.Any())
                 return;
-            var mamCache = RedisProvider.Build(ConnectionHelper.Redis);
-            services.AddSingleton<IMAMDistributedCache>(mamCache);
+            var cache = RedisProvider.Build(ConnectionHelper.Redis);
+            services.AddSingleton<IDistributedCache>(cache);
         }
     }
 }

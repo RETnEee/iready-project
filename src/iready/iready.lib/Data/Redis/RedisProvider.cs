@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using iready.lib.Model;
+using System.Linq;
+using StackExchange.Redis;
+using System.Net;
+
 namespace iready.lib.Data.Redis
 {
     public class RedisProvider

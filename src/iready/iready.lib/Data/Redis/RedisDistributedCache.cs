@@ -1,6 +1,11 @@
+using System;
+using StackExchange.Redis;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace iready.lib.Data.Redis
 {
-    public class MAMRedisDistributedCache : IMAMDistributedCache
+    public class MAMRedisDistributedCache : IDistributedCache
     {
         private int _databaseIndex;
         private ConfigurationOptions _config { get; set; }
@@ -13,21 +18,6 @@ namespace iready.lib.Data.Redis
             _connectionMultiplexer = ConnectionMultiplexer.Connect(config);
         }
 
-        private string site;
-        public string Site
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(site))
-                    return site;
-                return UserHelper.GetCurrentUser().SiteCode;
-            }
-            set
-            {
-                site = value;
-            }
-        }
-
         public IDatabase Database
         {
             get
@@ -38,7 +28,6 @@ namespace iready.lib.Data.Redis
 
         public async Task<byte[]> GetAsync(string key)
         {
-            key = MAMRedisHelper.FormatKey(Site, key);
             RedisValue value = await Database.StringGetAsync(key);
             return value;
         }
@@ -48,7 +37,7 @@ namespace iready.lib.Data.Redis
             var redisKeys = new RedisKey[] { };
             for (int i = 0; i < keys.Length; i++)
             {
-                redisKeys.SetValue(MAMRedisHelper.FormatKey(Site, keys[i]), i);
+                redisKeys.SetValue(keys[i], i);
             }
             RedisValue[] values = await Database.StringGetAsync(redisKeys);
 
@@ -73,23 +62,20 @@ namespace iready.lib.Data.Redis
 
         public void Remove(string key)
         {
-            key = MAMRedisHelper.FormatKey(Site, key);
             Database.KeyDelete(key);
         }
 
         public Task RemoveAsync(string key)
         {
-            key = MAMRedisHelper.FormatKey(Site, key);
             return Database.KeyDeleteAsync(key);
         }
 
         public Task SetAsync(string key, byte[] value, TimeSpan? expiry)
         {
-            key = MAMRedisHelper.FormatKey(Site, key);
             return Database.StringSetAsync(key, value, expiry);
         }
 
-        public IMAMDistributedCache Copy()
+        public IDistributedCache Copy()
         {
             var copyRedis = new MAMRedisDistributedCache();
             copyRedis.Set(_databaseIndex, _config);

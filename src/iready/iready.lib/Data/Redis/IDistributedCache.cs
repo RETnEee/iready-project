@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
+
 namespace iready.lib.Data.Redis
 {
-    public interface IMAMDistributedCache
+    public interface IDistributedCache
     {
-        public string Site { get; set; }
         Task<byte[]> GetAsync(string key);
         Task<List<byte[]>> GetAsync(params string[] keys);
         void Refresh(string key);
@@ -10,6 +13,6 @@ namespace iready.lib.Data.Redis
         void Remove(string key);
         Task RemoveAsync(string key);
         Task SetAsync(string key, byte[] value, TimeSpan? expiry);
-        IMAMDistributedCache Copy();
+        IDistributedCache Copy();
     }
 }
