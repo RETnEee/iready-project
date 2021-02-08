@@ -1,6 +1,7 @@
 using System.Linq;
 using iready.lib.Data.Redis;
 using iready.lib.Utilities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace iready.lib.AspNetCore.Db
 {

@@ -17,7 +17,7 @@ namespace iready.lib.Data.Redis
                 throw new Exception("没有找到redis连接信息");
             }
 
-            var mamCache = new MAMRedisDistributedCache();
+            var cache = new MAMRedisDistributedCache();
 
             var masterServerName = connections.FirstOrDefault(f => !string.IsNullOrEmpty(f.ServiceName))?.ServiceName;
             var password = connections.FirstOrDefault(f => !string.IsNullOrEmpty(f.Password))?.Password;
@@ -52,7 +52,7 @@ namespace iready.lib.Data.Redis
 
                 var config = ConstructConfigOptions(masterServerName, masterServersAndSlaverServers.Item1, masterServersAndSlaverServers.Item2, password);
 
-                mamCache.Set(db, config);
+                cache.Set(db, config);
             }
             else
             {
@@ -71,10 +71,10 @@ namespace iready.lib.Data.Redis
 
                 connections.ForEach(f => redisConfiguration.EndPoints.Add(f.IP, int.Parse(f.Port)));
 
-                mamCache.Set(db, redisConfiguration);
+                cache.Set(db, redisConfiguration);
             }
 
-            return mamCache;
+            return cache;
         }
 
         private static IServer GetMasterServer(ConnectionMultiplexer connectionMultiplexer)
