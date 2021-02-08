@@ -3,8 +3,8 @@
   "profiles": {
     "iready.api": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "weatherforecast",
+      "launchBrowser": true,
+      "launchUrl": "index.html",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
